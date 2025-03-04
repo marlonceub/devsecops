@@ -3,7 +3,7 @@ const http = require('http');
 const port = process.env.PORT || 80;
 
 const requestHandler = (request, response) => {
-  response.end('Bem-vindo ao AWS CodePipeline com Node.js! Teste 002');
+  response.end('Bem-vindo ao AWS CodePipeline com Node.js! Teste 002 - Marlon');
 };
 
 const server = http.createServer(requestHandler);
