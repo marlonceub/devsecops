@@ -3,20 +3,32 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 14  # Atualizando para uma versão mais recente e suportada
+      java: corretto17  # Necessário para o OWASP Dependency-Check
     commands:
-      - echo Installing NPM dependencies...
+      - echo "Installing NPM dependencies..."
       - npm install
+      - echo "Installing OWASP Dependency-Check..."
+      - curl -L -o dependency-check.zip https://github.com/jeremylong/DependencyCheck/releases/download/v9.0.9/dependency-check-9.0.9-release.zip
+      - unzip dependency-check.zip -d /opt/
+      - mv /opt/dependency-check-9.0.9 /opt/dependency-check
+      - chmod +x /opt/dependency-check/bin/dependency-check.sh
   pre_build:
     commands:
-      - echo Pre-build phase
+      - echo "Running OWASP Dependency-Check..."
+      - mkdir -p reports
+      - /opt/dependency-check/bin/dependency-check.sh --project "MyApp" --scan . --out reports/ --format HTML
+      - echo "OWASP Dependency-Check completed"
   build:
     commands:
-      - echo Build phase
+      - echo "Build phase - compiling application if necessary"
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo "Build completed on `date`"
+      - echo "Saving OWASP Dependency-Check report"
 
 artifacts:
   files:
-    - '**/*'           # Inclui todos os arquivos e subpastas recursivamente
+    - '**/*'
+    - 'reports/dependency-check-report.html'  # Inclui o relatório de segurança como artefato
+  discard-paths: no
