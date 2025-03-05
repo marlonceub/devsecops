@@ -26,6 +26,8 @@ phases:
     commands:
       - echo "Build completed on `date`"
       - echo "Saving OWASP Dependency-Check report"
+      - echo "Uploading OWASP Dependency-Check report to S3"
+      - aws s3 cp reports/dependency-check-report.html s3://meu-bucket-owasp/
 
 artifacts:
   files:
