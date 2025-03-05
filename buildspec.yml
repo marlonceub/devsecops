@@ -27,7 +27,7 @@ phases:
       - echo "OWASP Dependency-Check completed"
   build:
     commands:
-      - echo "Build phase - compiling application if necessary!"
+      - echo "Build phase - compiling application if necessary"
   post_build:
     commands:
       - echo "Build completed on `date`"
