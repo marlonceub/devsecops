@@ -17,7 +17,7 @@ phases:
     commands:
       - echo "Running OWASP Dependency-Check..."
       - mkdir -p reports
-      - /opt/dependency-check/bin/dependency-check.sh --project "MyApp" --scan . --out reports/ --format HTML
+      - /opt/dependency-check/bin/dependency-check.sh --project "MyApp" --scan . --out reports/ --format HTML --nvdApiKey $NVD_API_KEY
       - echo "OWASP Dependency-Check completed"
   build:
     commands:
