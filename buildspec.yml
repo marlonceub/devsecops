@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    NVD_API_KEY: "feced4ae-847a-43e9-a18e-bb7bec361b0e"
+
 phases:
   install:
     runtime-versions:
@@ -15,9 +19,11 @@ phases:
       - chmod +x /opt/dependency-check/bin/dependency-check.sh
   pre_build:
     commands:
+      - echo "Updating OWASP Dependency-Check database..."
+      - /opt/dependency-check/bin/dependency-check.sh --updateonly --apiKey $NVD_API_KEY
       - echo "Running OWASP Dependency-Check..."
       - mkdir -p reports
-      - /opt/dependency-check/bin/dependency-check.sh --project "MyApp" --scan . --out reports/ --format HTML --nvdApiKey $NVD_API_KEY
+      - /opt/dependency-check/bin/dependency-check.sh --project "MyApp" --scan . --out reports/ --format HTML --apiKey $NVD_API_KEY
       - echo "OWASP Dependency-Check completed"
   build:
     commands:
